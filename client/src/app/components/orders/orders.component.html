@@ -1,0 +1,21 @@
+<app-header></app-header>
+<div class="container py-5">
+  <div class="page-section d-flex justify-content-center mb-5">
+    <h1 class="page-title">Orders List</h1>
+  </div>
+  <div class="d-flex justify-content-center">
+    <h3>Total Price: {{ total_price }}</h3>
+    <button class="btn btn-primary mb-3 ml-3" [disabled]="total_price == 0" (click)="onSendOrders()">Send Orders</button>
+  </div>
+   <div class="row d-flex justify-content-center" *ngIf="!(orders[0] == undefined)">
+      <app-orders-item
+        *ngFor="let item of menu; let i = index"
+        [item]="item"
+        [customer_id]="customer_id"
+        [index]="i"
+      ></app-orders-item>
+   </div>
+   <div class="d-flex justify-content-center mt-5" *ngIf="orders[0] == undefined">
+     <h3 class="text-secondary">No Items Availabe in Your Orders List.</h3>
+   </div>
+</div>

@@ -1,0 +1,20 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" routerLink="/restaurants"><strong><span class="text-primary">T</span><sup>alabat</sup></strong></a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item" *ngIf="isLoggedIn" routerLinkActive="active">
+        <a class="nav-link" routerLink="/restaurants">Home</a>
+      </li>
+      <li class="nav-item" *ngIf="isLoggedIn" routerLinkActive="active">
+        <a class="nav-link" [routerLink]="['/orders', user_id]">Orders List</a>
+      </li>
+      <li class="nav-item" *ngIf="isLoggedIn" routerLinkActive="active">
+        <a class="nav-link" (click)="onLogOut()">Log out</a>
+      </li>
+    </ul>
+  </div>
+</nav>

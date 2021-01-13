@@ -1,0 +1,250 @@
+<div class="container py-5">
+  <div class="mb-5">
+    <div class="row d-flex justify-content-between">
+      <!-- Button trigger modal -->
+      <a class="text-primary" data-toggle="modal" data-target="#restaurantForm" *ngIf="isAdmin">
+        <i class="fas fa-plus mr-1"></i>
+        Add Restaurant
+      </a>
+      <div class="dropdown">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Choose a city
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" (click)="onSort(1)">Hebron</a>
+          <a class="dropdown-item" (click)="onSort(2)">Nablus</a>
+          <a class="dropdown-item" (click)="onSort(3)">Ramallah</a>
+        </div>
+      </div>
+    </div>
+     <!-- Modal -->
+    <div class="modal fade" id="restaurantForm" tabindex="-1" aria-labelledby="restaurantForm" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title text-primary" id="restaurantForm">Add Restaurant</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form (ngSubmit)="onAdd()" #addForm="ngForm">
+             <div class="form-group">
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" name="image" id="image"
+                  aria-describedby="image"
+                  (change)="onFileSelected($event)">
+                <label class="custom-file-label" for="image">Choose file</label>
+              </div>
+             </div>
+              <div class="form-group">
+                <label for="name">Name</label>
+                <span *ngIf="_name.invalid && (_name.dirty || _name.touched)"
+                    class="text-danger">
+                    <span *ngIf="_name.errors.required">
+                      *
+                    </span>
+                </span>
+                <input type="text" class="form-control" id="name" name="name"
+                  required
+                  maxlength="40"
+                  pattern="^[a-zA-Z+.+-]+$"
+                  ngModel
+                  #_name="ngModel"
+                >
+                <span *ngIf="_name.invalid && (_name.dirty || _name.touched) && _name.errors.pattern"
+                      class="text-danger">
+                    Only characters are allowed.
+                </span>
+                <span *ngIf="_name.invalid && (_name.dirty || _name.touched) && _name.errors.maxlength"
+                    class="text-danger">
+                  Max length is 40 character.
+                </span>
+              </div>
+              <div class="form-group">
+                <label for="city">City</label>
+                <span *ngIf="_city.invalid && (_city.dirty || _city.touched)"
+                  class="text-danger">
+                  <span *ngIf="_city.errors.required">
+                    *
+                  </span>
+                </span>
+                <input type="text" class="form-control" id="city" name="city"
+                  required
+                  ngModel
+                  #_city="ngModel"
+                >
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <span *ngIf="_phone.invalid && (_phone.dirty || _phone.touched)"
+                    class="text-danger">
+                    <span *ngIf="_phone.errors.required">
+                      *
+                    </span>
+                </span>
+                <input type="text" class="form-control" id="phone" name="phone"
+                  required
+                  pattern="^[0-9]+$"
+                  ngModel
+                  #_phone="ngModel"
+                  >
+                <span *ngIf="_phone.invalid && (_phone.dirty || _phone.touched) && _phone.errors.pattern"
+                    class="text-danger">
+                    Only numbers are allowed.
+                </span>
+              </div>
+              <div class="row">
+                <div class="form-group col-6">
+                  <label for="latitude">Latitude</label>
+                  <input type="text" class="form-control" id="latitude" name="latitude"
+                    #lat="ngModel"
+                    pattern="^[0-9]+$"
+                    ngModel
+                  >
+                  <span *ngIf="lat.invalid && (lat.dirty || lat.touched) && lat.errors.pattern"
+                      class="text-danger">
+                    Only numbers are allowed.
+                  </span>
+                </div>
+                <div class="form-group col-6">
+                  <label for="longitude" class="">Longitude</label>
+                  <input type="text" class="form-control" id="Longitude" name="longitude"
+                    #lng="ngModel"
+                    pattern="^[0-9]+$"
+                    ngModel
+                  >
+                  <span *ngIf="lng.invalid && (lng.dirty || lng.touched) && lng.errors.pattern"
+                      class="text-danger">
+                    Only numbers are allowed.
+                  </span>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary" [disabled]="addForm.invalid">Add</button>
+              <button type="button" class="btn btn-secondary ml-2" data-dismiss="modal">Close</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+  </div>
+  <span *ngIf="restaurants.length || restaurants[0] != undefined">
+    <app-restaurant-item
+    *ngFor="let restaurant of restaurants;let i = index"
+    [restaurant]="restaurant"
+    [index]="i"
+    (onEdit)="onEdit($event)"
+    ></app-restaurant-item>
+  </span>
+  <h1 class="text-secondary" *ngIf="!restaurants.length || restaurants[0] == undefined">No Restaurants Availabe to Show.</h1>
+</div>
+      <!-- Modal -->
+      <div class="modal fade" id="restaurantEditForm" tabindex="-1" aria-labelledby="restaurantEditForm" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title text-primary" id="restaurantEditForm">Edit Restaurant</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form (ngSubmit)="onFormEdit()" #editForm="ngForm">
+              <div class="form-group">
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" name="image" id="image"
+                    aria-describedby="image"
+                    (change)="onFileSelected($event)">
+                  <label class="custom-file-label" for="image">Choose file</label>
+                </div>
+              </div>
+                <div class="form-group">
+                  <label for="name">Name</label>
+                  <span *ngIf="__name.invalid && (__name.dirty || __name.touched)"
+                    class="text-danger">
+                    <span *ngIf="__name.errors.required">
+                      *
+                    </span>
+                  </span>
+                  <input type="text" class="form-control" id="name" name="name"
+                    required
+                    pattern="^[a-zA-Z+.+-]+$"
+                    [(ngModel)]="name"
+                    #__name="ngModel"
+                  >
+                  <span *ngIf="__name.invalid && (__name.dirty || __name.touched) && __name.errors.pattern"
+                    class="text-danger">
+                    Only characters are allowed.
+                  </span>
+                  <span *ngIf="__name.invalid && (__name.dirty || __name.touched) && __name.errors.maxlength"
+                      class="text-danger">
+                      Max length for length is 40 character.
+                  </span>
+                </div>
+                <div class="form-group">
+                  <label for="city">City</label>
+                  <span *ngIf="__city.invalid && (__city.dirty || __city.touched)"
+                    class="text-danger">
+                    <span *ngIf="__city.errors.required">
+                      *
+                    </span>
+                  </span>
+                  <input type="text" class="form-control" id="city" name="city"
+                    required
+                    [(ngModel)]="city"
+                    #__city="ngModel"
+                  >
+                </div>
+                <div class="form-group">
+                  <label for="phone">Phone Number</label>
+                  <span *ngIf="__phone.invalid && (__phone.dirty || __phone.touched)"
+                    class="text-danger">
+                    <span *ngIf="__phone.errors.required">
+                      *
+                    </span>
+                  </span>
+                  <input type="text" class="form-control" id="phone" name="phone"
+                    required
+                    pattern="^[0-9]+$"
+                    [(ngModel)]="phone"
+                    #__phone="ngModel"
+                    >
+                  <span *ngIf="__phone.invalid && (__phone.dirty || __phone.touched) && __phone.errors.pattern"
+                    class="text-danger">
+                    Only numbers are allowed.
+                  </span>
+                </div>
+                <div class="row">
+                  <div class="form-group col-6">
+                    <label for="latitude">Latitude</label>
+                    <input type="text" class="form-control" id="latitude" name="latitude"
+                    pattern="^[0-9]+$"
+                    [(ngModel)]="latitude"
+                    #_lat="ngModel"
+                    >
+                    <span *ngIf="_lat.invalid && (_lat.dirty || _lat.touched) && _lat.errors.pattern"
+                      class="text-danger">
+                      Only numbers are allowed.
+                    </span>
+                  </div>
+                  <div class="form-group col-6">
+                    <label for="longitude">Longitude</label>
+                    <input type="text" class="form-control" id="Longitude" name="longitude"
+                      pattern="^[0-9]+$"
+                      [(ngModel)]="longitude"
+                      #_lng="ngModel"
+                    >
+                    <span *ngIf="_lng.invalid && (_lng.dirty || _lng.touched) && _lng.errors.pattern"
+                      class="text-danger">
+                      Only numbers are allowed.
+                    </span>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary" [disabled]="editForm.invalid">Edit</button>
+                <button type="button" class="btn btn-secondary ml-2" data-dismiss="modal">Close</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>

@@ -1,0 +1,31 @@
+<form (ngSubmit)="onSubmit()" class="border rounded px-5 py-3" #form="ngForm">
+  <div class="d-flex justify-content-center">
+    <h2 class="text-secondary">REGISTER</h2>
+  </div>
+  <div class="row">
+    <div class="form-group col-6">
+      <label for="first_name">First name</label>
+      <input type="text" class="form-control" name="first_name" id="first_name" required ngModel>
+    </div>
+    <div class="form-group col-6">
+      <label for="last_name">Last name</label>
+      <input type="text" class="form-control" name="last_name" id="last_name" required ngModel>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input type="email" class="form-control" name="email" id="email" required ngModel>
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <input type="password" class="form-control" name="password" id="password" required ngModel>
+  </div>
+  <div class="form-group">
+    <label for="phone">Phone number</label>
+    <input type="text" class="form-control" name="phone" id="phone" required ngModel>
+  </div>
+  <div class="row d-flex justify-content-center">
+    <button type="submit" class="btn btn-primary col-11">Register</button>
+  </div>
+</form>
+<p class="mt-2">Already have an account ? <a routerLink="/auth">Log in</a></p>

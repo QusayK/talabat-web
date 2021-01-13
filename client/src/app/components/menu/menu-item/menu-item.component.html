@@ -1,0 +1,36 @@
+<div class="menu-content col-11 mr-4">
+  <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+          <div class="dish-img"><a><img [src]="'http://localhost:5000/static/images/'+menu.image" alt="" class="img-circle"></a></div>
+      </div>
+      <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+          <div class="dish-content">
+            <div class="row pl-3">
+              <h5 class="dish-title pr-2">{{ menu.name }}</h5>
+              <input type="number" class="quantity" min="1" name="quantity" [(ngModel)]="quantity">
+            </div>
+            <span class="dish-meta d-flex flex-column">
+              <span>{{ menu.description }}</span>
+              <span class="d-flex justify-content-between">
+                <a class="text-primary pt-1" (click)="onAdd()">Add to Orders List</a>
+                  <!-- Button trigger modal -->
+
+                  <a class="text-primary" data-toggle="modal" data-target="#menuItemEditForm"
+                  *ngIf="isAdmin"
+                  (click)="onEditMode()"
+                >
+                  <i class=" fas fa-edit"></i>
+                </a>
+                <a class="text-danger"><i class="fas fa-trash"
+                  *ngIf="isAdmin"
+                  (click)="onDelete()"
+                ></i></a>
+              </span>
+            </span>
+            <div class="dish-price">
+              <p>${{ menu.price }}</p>
+            </div>
+          </div>
+       </div>
+  </div>
+</div>

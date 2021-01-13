@@ -1,0 +1,183 @@
+<div class="container py-5 pl-0">
+  <!-- Button trigger modal -->
+  <a class="text-primary" data-toggle="modal" data-target="#menuItemForm">
+    <i class="fas fa-plus mr-1"></i>
+    Add Menu Item
+  </a>
+  <hr class="mb-5">
+    <!-- Modal -->
+  <div class="modal fade" id="menuItemForm" tabindex="-1" aria-labelledby="menuItemForm" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-primary" id="menuItemForm">Add Menu Item</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="onSubmit()" #form="ngForm">
+            <div class="form-group">
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" name="image"
+                aria-describedby="image"
+                (change)="onFileSelected($event)">
+              <label class="custom-file-label" for="image">Choose file</label>
+            </div>
+            </div>
+            <div class="form-group">
+              <label for="name">Name</label>
+              <span *ngIf="_name.invalid && (_name.dirty || _name.touched)"
+                  class="text-danger">
+                  <span *ngIf="_name.errors.required">
+                    *
+                  </span>
+                </span>
+              <input type="text" class="form-control" name="name"
+                required
+                maxlength="50"
+                pattern="^[a-zA-Z+.+-]+$"
+                ngModel
+                #_name="ngModel"
+              >
+              <span *ngIf="_name.invalid && (_name.dirty || _name.touched) && _name.errors.pattern"
+                  class="text-danger">
+                  Only characters are allowed.
+              </span>
+              <span *ngIf="_name.invalid && (_name.dirty || _name.touched) && _name.errors.maxlength"
+                  class="text-danger">
+                Max length is 40 character.
+              </span>
+            </div>
+            <div class="form-group">
+              <label for="desc">Description</label>
+              <span *ngIf="_desc.invalid && (_desc.dirty || _desc.touched)"
+                class="text-danger">
+                <span *ngIf="_desc.errors.required">
+                  *
+                </span>
+              </span>
+              <textarea type="text" class="form-control" id="desc" name="desc"
+                required
+                ngModel
+                #_desc="ngModel"
+              >
+              </textarea>
+            </div>
+            <div class="form-group">
+              <label for="price">Price</label>
+              <span *ngIf="_price.invalid && (_price.dirty || _price.touched)"
+                class="text-danger">
+                <span *ngIf="_price.errors.required">
+                  *
+                </span>
+              </span>
+              <input type="number" class="form-control" id="price" name="price"
+                min="0"
+                required
+                ngModel
+                #_price="ngModel"
+                >
+            </div>
+            <input type="submit" class="btn btn-primary" [disabled]="form.invalid" value="Add">
+            <button type="button" class="btn btn-secondary ml-2" data-dismiss="modal">Close</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="page-section d-flex justify-content-center">
+    <h1 class="page-title">Food Menu</h1>
+  </div>
+   <div class="row d-flex justify-content-center" *ngIf="!(menuItems[0] == undefined)">
+    <app-menu-item
+      *ngFor="let item of menuItems; let i = index"
+      [menu]="item"
+      [index]="i"
+      (onEdit)="onEditMode($event)"
+    ></app-menu-item>
+   </div>
+   <div class="d-flex justify-content-center mt-5" *ngIf="menuItems[0] == undefined">
+     <h3 class="text-secondary">No Menu Items Availabe for that Restaurant.</h3>
+   </div>
+</div>
+    <!-- Modal -->
+<div class="modal fade" id="menuItemEditForm" tabindex="-1" aria-labelledby="menuItemEditForm" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-primary" id="menuItemEditForm">Add Menu Item</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="onEdit()" #editForm="ngForm">
+          <div class="form-group">
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" name="image"
+              aria-describedby="image"
+              (change)="onFileSelected($event)">
+            <label class="custom-file-label" for="image">Choose file</label>
+          </div>
+          </div>
+          <div class="form-group">
+            <label for="name">Name</label>
+            <span *ngIf="__name.invalid && (__name.dirty || __name.touched)"
+              class="text-danger">
+              <span *ngIf="__name.errors.required">
+                *
+              </span>
+            </span>
+            <input type="text" class="form-control" name="name"
+              required
+              maxlength="50"
+              pattern="^[a-zA-Z+.+-]+$"
+              [(ngModel)]="name"
+              #__name="ngModel"
+            >
+            <span *ngIf="__name.invalid && (__name.dirty || __name.touched) && __name.errors.pattern"
+                class="text-danger">
+                Only characters are allowed.
+            </span>
+            <span *ngIf="__name.invalid && (__name.dirty || __name.touched) && __name.errors.maxlength"
+                class="text-danger">
+                Max length is 40 character.
+            </span>
+          </div>
+          <div class="form-group">
+            <label for="desc">Description</label>
+            <span *ngIf="__desc.invalid && (__desc.dirty || __desc.touched)"
+              class="text-danger">
+              <span *ngIf="__desc.errors.required">
+                *
+              </span>
+            </span>
+            <textarea type="text" class="form-control" name="desc"
+              required
+              [(ngModel)]="desc"
+              #__desc="ngModel"
+            >
+            </textarea>
+          </div>
+          <div class="form-group">
+            <label for="price">Price</label>
+            <span *ngIf="__price.invalid && (__price.dirty || __price.touched)"
+                class="text-danger">
+                <span *ngIf="__price.errors.required">
+                  *
+                </span>
+              </span>
+            <input type="number" class="form-control" name="price"
+              required
+              [(ngModel)]="price"
+              #__price="ngModel"
+              >
+          </div>
+          <button type="submit" class="btn btn-primary" [disabled]="editForm.invalid">Edit</button>
+          <button type="button" class="btn btn-secondary ml-2" data-dismiss="modal">Close</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

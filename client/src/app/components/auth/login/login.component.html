@@ -1,0 +1,41 @@
+<form (ngSubmit)="onSubmit()" class="border rounded p-5" #form="ngForm">
+  <div class="d-flex justify-content-center">
+    <h2 class="text-secondary">LOG IN</h2>
+  </div>
+  <div class="form-group">
+    <label for="email">Email</label>
+    <span *ngIf="email.invalid && (email.dirty || email.touched) && email.errors.required">
+      <span class="text-danger">
+        *
+      </span>
+    </span>
+    <input type="email" class="form-control" name="email" id="email"
+      required
+      email
+      ngModel
+      #email="ngModel"
+    >
+    <span *ngIf="email.invalid && (email.dirty || email.touched) && email.errors.email">
+      <span class="text-danger">
+        Invalid email.
+      </span>
+    </span>
+  </div>
+  <div class="form-group">
+    <label for="password">Password</label>
+    <span *ngIf="password.invalid && (password.dirty || password.touched) && password.errors.required">
+      <span class="text-danger">
+        *
+      </span>
+    </span>
+    <input type="password" class="form-control" name="password" id="password"
+      required
+      ngModel
+      #password="ngModel"
+    >
+  </div>
+  <div class="row d-flex justify-content-center">
+    <button type="submit" class="btn btn-primary col-11" [disabled]="form.invalid">Log In</button>
+  </div>
+</form>
+<p class="mt-2">You don't have an account ? <a routerLink="/auth/register">Register</a></p>

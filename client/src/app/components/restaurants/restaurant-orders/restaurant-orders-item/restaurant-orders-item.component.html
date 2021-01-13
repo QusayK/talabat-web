@@ -1,0 +1,21 @@
+<div class="menu-content col-11 mr-4">
+  <div class="row">
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+          <div class="dish-img"><a><img class="rounded-circle" [src]="'assets/images/' + order.image" alt="" class="img-circle"></a></div>
+      </div>
+      <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+          <div class="dish-content">
+              <div class="row pl-3">
+                <h5 class="dish-title pr-2">{{ order.name }}</h5>
+                <h5 class="text-primary">{{ quantity }}</h5>
+              </div>
+              <span class="dish-meta d-flex flex-column">
+                <span>{{ order.description }}</span>
+              </span>
+              <div class="dish-price">
+                <p>${{ order.price }}</p>
+              </div>
+          </div>
+       </div>
+  </div>
+</div>

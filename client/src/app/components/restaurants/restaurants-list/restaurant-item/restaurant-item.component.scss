@@ -1,0 +1,29 @@
+.card {
+  box-shadow: -1px 5px 9px -1px rgba(96, 127, 128, 1);
+  display: inline-block;
+
+  .yellow-star {
+    color: rgb(245, 245, 9);
+  }
+
+  .rating-popover {
+    position: absolute;
+    z-index: 2;
+    background-color: rgb(235, 237, 243);
+    width: 20%;
+    height: 40%;
+    border-radius: 5px;
+    box-shadow: -1px 3px 7px 0px rgba(145, 199, 199, 1);
+
+    span {
+      color: rgba(33, 6, 95, 0.712);
+    }
+  }
+
+  .rating {
+    border: none;
+    display: inline;
+    width: 40px;
+    height: 20px;
+  }
+}
